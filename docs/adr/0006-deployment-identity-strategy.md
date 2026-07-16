@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 The Azure Platform Framework requires a deployment identity model that supports
@@ -401,6 +409,15 @@ This decision is valid when:
   deployments away from human identities.
 - Break-glass access is human only, MFA protected, documented, audited, and not
   used by CI/CD.
+
+## Related ADRs
+
+- [ADR 0001 - Infrastructure as Code Engine](0001-iac-engine.md)
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0003 - Terraform Toolchain Baseline](0003-terraform-toolchain-baseline.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0005 - Management Group Hierarchy](0005-management-group-hierarchy.md)
+- [ADR 0007 - Enterprise Networking Strategy](0007-enterprise-networking-strategy.md)
 
 ## Revisit Conditions
 

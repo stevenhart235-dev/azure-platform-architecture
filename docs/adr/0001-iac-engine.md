@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Decision
 
 Terraform is the authoritative and officially supported Infrastructure as Code
@@ -489,7 +497,14 @@ The decision is valid when:
 - Azure Verified Module adoption reviews confirm Terraform compatibility.
 - Documentation and runbooks do not imply OpenTofu is supported.
 
-## Conditions That Would Cause This Decision to Be Revisited
+## Related ADRs
+
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0003 - Terraform Toolchain Baseline](0003-terraform-toolchain-baseline.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
+
+## Revisit Conditions
 
 - Enterprise legal, procurement, security, or compliance policy prohibits or
   materially restricts Terraform use.

@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 The Azure Landing Zone roadmap defines a platform that will be delivered through
@@ -598,6 +606,15 @@ The decision is valid when:
 - CI/CD workflows are isolated by repository responsibility.
 - Shared standards are referenced from `azure-platform-architecture`.
 - Cross-repository dependencies are documented and reviewed.
+
+## Related ADRs
+
+- [ADR 0001 - Infrastructure as Code Engine](0001-iac-engine.md)
+- [ADR 0003 - Terraform Toolchain Baseline](0003-terraform-toolchain-baseline.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0005 - Management Group Hierarchy](0005-management-group-hierarchy.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
+- [ADR 0007 - Enterprise Networking Strategy](0007-enterprise-networking-strategy.md)
 
 ## Revisit Conditions
 

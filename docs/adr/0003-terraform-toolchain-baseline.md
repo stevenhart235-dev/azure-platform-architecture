@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 ADR 0001 establishes Terraform as the authoritative and officially supported
@@ -471,6 +479,13 @@ to the lowest Terraform and AzureRM versions actually tested.
 The release-acceptance path remains Terraform 1.15.8 with AzureRM 4.80.0
 selected by root lock files. Additional Terraform or provider versions may be
 added later if there is a real consumer need and the CI matrix is expanded.
+
+## Related ADRs
+
+- [ADR 0001 - Infrastructure as Code Engine](0001-iac-engine.md)
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
 
 ## Revisit Conditions
 

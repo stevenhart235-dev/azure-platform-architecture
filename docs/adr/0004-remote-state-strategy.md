@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 ADR 0001 establishes Terraform as the authoritative Infrastructure as Code
@@ -413,6 +421,14 @@ This decision is valid when:
   creation.
 - Recovery procedures are documented and tested before production readiness.
 - Break-glass access is documented and controlled before production use.
+
+## Related ADRs
+
+- [ADR 0001 - Infrastructure as Code Engine](0001-iac-engine.md)
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0003 - Terraform Toolchain Baseline](0003-terraform-toolchain-baseline.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
+- [ADR 0007 - Enterprise Networking Strategy](0007-enterprise-networking-strategy.md)
 
 ## Revisit Conditions
 

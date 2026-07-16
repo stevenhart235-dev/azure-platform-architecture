@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 The Azure Platform Framework requires an enterprise networking strategy that
@@ -37,6 +45,26 @@ tables, DNS zones, or Azure resources.
 - Support regional expansion without restructuring the network model.
 - Avoid hard-coded enterprise CIDR ranges in reusable modules.
 - Leave room for future enterprise IPAM integration.
+
+## Networking Principles
+
+- Private by Default: platform and workload connectivity should prefer private
+  paths and private endpoints where Azure service support and operational
+  requirements allow it.
+- Explicit Connectivity: network paths must be intentionally designed,
+  documented, and reviewed rather than emerging through ad hoc peerings or
+  broad routing.
+- Centralized Control: shared routing, egress, DNS, firewall policy, and
+  connectivity patterns are owned by the connectivity platform.
+- Least Privilege: network access should expose only the paths required for the
+  workload or platform function.
+- Regional Independence: each regional hub should be deployable, changeable,
+  and recoverable as its own unit.
+- Configuration-Driven Addressing: address spaces are supplied through
+  reviewed configuration and are never embedded in reusable modules.
+- Platform-Owned Shared Infrastructure: shared network infrastructure is owned
+  by the platform so landing zones can consume consistent, governed
+  connectivity.
 
 ## Options Considered
 
@@ -135,6 +163,29 @@ The implementation direction is Azure native. The architecture should still
 preserve cloud-agnostic principles such as centralized inspection, explicit
 routing, private connectivity, configuration-driven IPAM, separation of
 platform and workload ownership, and least-privilege operational boundaries.
+
+## Architecture Diagram
+
+```text
+Tenant
+|-- Platform
+|   `-- Connectivity
+|       |-- Regional Hub: Region 1
+|       |   |-- Hub VNet
+|       |   |-- Azure Firewall
+|       |   |-- Gateways
+|       |   |-- Route Tables / UDRs
+|       |   `-- Private DNS
+|       `-- Regional Hub: Region N
+|           `-- Same regional hub pattern
+`-- Landing Zones
+    |-- Production
+    |   `-- Landing Zone Spokes
+    |-- Non-Production
+    |   `-- Landing Zone Spokes
+    `-- Sandbox
+        `-- Landing Zone Spokes
+```
 
 ## Rationale
 
@@ -295,6 +346,27 @@ IPAM design must prevent overlap across:
 - Workload spokes.
 - Hybrid/on-premises networks.
 
+## Rejected By Default
+
+The following patterns are intentionally not the default platform architecture.
+They may be appropriate in specific scenarios, but they require explicit
+justification and review.
+
+- Full mesh networking: not the default because it increases lateral
+  connectivity, route complexity, and governance overhead.
+- Spoke-to-spoke peering: not the default because it bypasses centralized hub
+  routing and makes connectivity ownership harder to review.
+- Decentralized DNS ownership: not the default because private DNS is a shared
+  control plane for private endpoints, hybrid resolution, and landing-zone
+  interoperability.
+- Public-first networking: not the default because the platform prefers private
+  connectivity and explicit public endpoint justification.
+- Per-application firewalls: not the default because firewall policy and egress
+  control are platform-owned shared capabilities unless a documented workload
+  requirement justifies a separate pattern.
+- Hard-coded CIDRs inside reusable modules: prohibited because enterprise
+  address allocation must be configuration-driven and environment-neutral.
+
 ## Enterprise Scaling
 
 Enterprise scaling adds regional hubs without changing the architecture.
@@ -368,6 +440,15 @@ This decision is valid when:
 - Public endpoint use requires explicit justification.
 - IPAM is configuration-driven.
 - Reusable modules do not hard-code enterprise CIDR ranges.
+
+## Related ADRs
+
+- [ADR 0001 - Infrastructure as Code Engine](0001-iac-engine.md)
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0003 - Terraform Toolchain Baseline](0003-terraform-toolchain-baseline.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0005 - Management Group Hierarchy](0005-management-group-hierarchy.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
 
 ## Revisit Conditions
 

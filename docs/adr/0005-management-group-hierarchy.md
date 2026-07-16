@@ -4,6 +4,14 @@
 
 Accepted
 
+## Decision Date
+
+2026-07-16
+
+## Owners
+
+Ordicor Platform
+
 ## Context
 
 The Azure Platform Framework must provide a management group hierarchy that can
@@ -376,6 +384,13 @@ This decision is valid when:
 - Future subscription vending has clear placement destinations.
 - The lab implementation can contain a single subscription without changing
   the target architecture.
+
+## Related ADRs
+
+- [ADR 0002 - Repository Separation](0002-repository-separation.md)
+- [ADR 0004 - Remote State Strategy](0004-remote-state-strategy.md)
+- [ADR 0006 - Deployment Identity Strategy](0006-deployment-identity-strategy.md)
+- [ADR 0007 - Enterprise Networking Strategy](0007-enterprise-networking-strategy.md)
 
 ## Revisit Conditions
 
