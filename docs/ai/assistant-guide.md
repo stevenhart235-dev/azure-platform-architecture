@@ -44,6 +44,30 @@ The platform goals are to:
 - Make platform changes testable, reviewable, recoverable, and operationally
   supportable.
 
+## Current Project Status
+
+Current release: `v0.1.0-alpha`
+
+Current milestone: **M1 - Engineering Toolchain**
+
+M0 Platform Architecture is complete. The architecture repository now contains
+the accepted baseline ADRs and standards needed to begin engineering toolchain
+implementation.
+
+Current status:
+
+- ADRs `0001` through `0007` are accepted.
+- Terraform is the authoritative Infrastructure as Code engine.
+- The four-repository model is accepted.
+- Remote state, management group hierarchy, deployment identity, and enterprise
+  networking decisions are accepted.
+- Repository, Terraform module, naming, tagging, versioning, state management,
+  and engineering validation standards exist.
+- No production Azure platform resources should be deployed from this
+  repository.
+- M1 work should focus on local validation, CI validation, tooling, and
+  repeatable engineering workflows.
+
 ## Repository Map
 
 The accepted repository model uses four repositories.
@@ -136,7 +160,33 @@ Prohibited content:
 
 Accepted decisions only:
 
-- Terraform is the authoritative and officially supported IaC engine.
+- [ADR 0001 - Infrastructure as Code Engine](../adr/0001-iac-engine.md):
+  Terraform is the authoritative and officially supported IaC engine.
+- [ADR 0002 - Repository Separation](../adr/0002-repository-separation.md):
+  the platform uses the four-repository model:
+  `azure-platform-architecture`, `azure-platform-modules`,
+  `azure-platform-foundation`, and `azure-platform-connectivity`.
+- [ADR 0003 - Terraform Toolchain Baseline](../adr/0003-terraform-toolchain-baseline.md):
+  Terraform `1.15.8` is the exact approved execution version, AzureRM `4.80.0`
+  is the initial release-validation and lock-file-selected provider version,
+  and AzAPI is excluded until a real capability requires it.
+- [ADR 0004 - Remote State Strategy](../adr/0004-remote-state-strategy.md):
+  the platform uses the native Terraform `azurerm` backend with Azure Blob
+  Storage, Azure RBAC, and coarse initial state boundaries.
+- [ADR 0005 - Management Group Hierarchy](../adr/0005-management-group-hierarchy.md):
+  the hierarchy is Tenant, Platform, Landing Zones, and Decommissioned, with
+  Platform containing Management, Identity, Connectivity, and Shared Services.
+- [ADR 0006 - Deployment Identity Strategy](../adr/0006-deployment-identity-strategy.md):
+  human identities are for bootstrap, development, troubleshooting, and
+  emergency operations; routine deployments use automation identities with
+  GitHub OIDC and Microsoft Entra Workload Identity Federation.
+- [ADR 0007 - Enterprise Networking Strategy](../adr/0007-enterprise-networking-strategy.md):
+  hub-and-spoke is the reference architecture, with platform-owned regional
+  hubs, centralized routing, centralized DNS, and private endpoint first
+  connectivity.
+
+Additional accepted toolchain facts:
+
 - Terraform `1.15.8` is the exact approved execution version for developer
   tooling, CI/CD, tests, plans, applies, release validation, state operations,
   troubleshooting, and runbooks.
@@ -147,9 +197,6 @@ Accepted decisions only:
   before stable releases claim that compatibility.
 - Root deployment lock files initially select AzureRM `4.80.0`.
 - AzAPI is not included until a real platform capability requires it.
-- The platform uses the four-repository model:
-  `azure-platform-architecture`, `azure-platform-modules`,
-  `azure-platform-foundation`, and `azure-platform-connectivity`.
 - Root repositories own remote state, provider configuration, backend
   configuration, dependency lock files, and environment values.
 - Reusable child modules remain environment-neutral.
@@ -177,18 +224,20 @@ Reusable modules are product artifacts. Root deployments are consumers of those
 artifacts. Environment-specific values belong in deployment repositories, not in
 reusable module source.
 
-## Required Workflow For AI Assistants
+## Recommended Startup Workflow
 
 1. Read this guide.
 2. Read the relevant ADRs and standards for the requested change.
 3. Inspect the actual repository and Git status.
-4. Summarize the current state before modifying files.
-5. Make only the requested changes.
-6. Do not broaden scope.
-7. Report files changed, validation performed, blockers, and deferred work.
-8. Never claim tests passed if tools were unavailable or were not run.
-9. Do not commit or push unless explicitly asked.
-10. Do not silently make architecture decisions.
+4. Confirm the current release, active milestone, and accepted ADRs that apply.
+5. Summarize the current state before modifying files when the task is broad or
+   architecture-sensitive.
+6. Make only the requested changes.
+7. Do not broaden scope.
+8. Report files changed, validation performed, blockers, and deferred work.
+9. Never claim tests passed if tools were unavailable or were not run.
+10. Do not commit or push unless explicitly asked.
+11. Do not silently make architecture decisions.
 
 If the requested change exposes an unresolved architecture decision, document
 the decision point and ask for direction or propose an ADR. Do not hide the
@@ -227,42 +276,46 @@ Foundation and connectivity repository guardrails:
 
 This is a project snapshot and must be updated when milestones change:
 
-- Architecture roadmap and the M0 specification exist.
-- ADRs `0001` through `0003` exist.
-- Repository, module, naming, tagging, and versioning standards exist.
-- `azure-platform-modules` is scaffolded.
-- `modules/resource-group` exists as the first implemented reference module.
-- Resource Group validation is not complete until Terraform formatting,
-  validation, native Terraform tests, example validation, and test tooling run
-  successfully.
+- `v0.1.0-alpha` has been released.
+- M0 Platform Architecture is complete.
+- M1 Engineering Toolchain is active.
+- ADRs `0001` through `0007` are accepted.
+- Repository, Terraform module, naming, tagging, versioning, state management,
+  and engineering validation standards exist.
+- Engineering Validation Standard has been added.
+- The architecture repository remains documentation-only and must not contain
+  deployable Terraform, state, plan files, or environment-specific values.
+- Implementation repositories are expected to consume this architecture
+  baseline as M1 and later milestones proceed.
 - Foundation and connectivity repositories are not yet implemented.
 
-## Current Priority
+## Current Engineering Priorities
 
-The immediate priority is proving the Resource Group module before expanding
-the module library.
+The immediate priority is M1 Engineering Toolchain.
 
-That proof requires:
+Current priorities:
 
-- Terraform formatting.
-- Terraform validation.
-- Native Terraform tests.
-- Example validation.
-- Future CI automation.
+- Translate the Engineering Validation Standard into repeatable local and
+  GitHub Actions validation workflows.
+- Standardize `terraform fmt`, `terraform validate`, `terraform test`, TFLint,
+  and Trivy checks.
+- Align CI behavior with the approved Terraform execution version and provider
+  strategy.
+- Define pull request and release validation evidence for reusable modules.
+- Keep workflow implementation details in the appropriate implementation
+  repositories.
+- Preserve the M0 architecture baseline unless a deliberate ADR or standard
+  update changes it.
 
-Do not expand the module catalog before the reference module proves the module
-standard, testing standard, versioning model, and release workflow.
+Do not expand implementation scope before the M1 validation model is clear and
+reviewable.
 
 ## Unresolved Decisions
 
 The following items remain unresolved unless a newer accepted ADR or standard
 states otherwise:
 
-- Remote state architecture.
-- Deployment identity.
-- Management group hierarchy.
 - Subscription model.
-- Network topology.
 - IPAM.
 - DNS ownership.
 - Governance and policy rollout.

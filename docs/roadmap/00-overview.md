@@ -2,14 +2,14 @@
 
 ## Purpose
 
-This roadmap defines the phased design and implementation of an enterprise Azure Landing Zone platform using reusable, standardized, and versioned Terraform/OpenTofu modules.
+This roadmap defines the phased design and implementation of an enterprise Azure Landing Zone platform using reusable, standardized, and versioned Terraform modules.
 
 The platform will establish the shared Azure foundation required to support secure, governed, observable, and repeatable workload deployment.
 
 The implementation will prioritize:
 
 * Configuration-driven deployments
-* Reusable Terraform/OpenTofu modules
+* Reusable Terraform modules
 * Clear separation between reusable modules and environment deployments
 * Minimal hard-coded configuration
 * Azure Landing Zone design principles
@@ -28,7 +28,7 @@ The platform will eventually be divided across four repositories.
 | Repository                    | Responsibility                                                                            |
 | ----------------------------- | ----------------------------------------------------------------------------------------- |
 | `azure-platform-architecture` | Architecture, standards, ADRs, roadmap, and implementation guidance                       |
-| `azure-platform-modules`      | Reusable and independently versioned Terraform/OpenTofu modules                           |
+| `azure-platform-modules`      | Reusable and independently versioned Terraform modules                                    |
 | `azure-platform-foundation`   | Management groups, platform subscriptions, governance, identity, and management resources |
 | `azure-platform-connectivity` | Enterprise hubs, routing, firewalls, DNS, hybrid connectivity, and spoke onboarding       |
 
@@ -65,8 +65,8 @@ When complete, the platform will provide:
 
 | Milestone | Name                         | Status      | Primary Outcome                                                                   |
 | --------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------- |
-| M0        | Architecture and Standards   | In progress | Platform requirements, standards, and major architecture decisions are documented |
-| M1        | Engineering Toolchain        | Not started | Local and CI validation workflows are operational                                 |
+| M0        | Architecture and Standards   | Complete    | Platform requirements, standards, and major architecture decisions are documented |
+| M1        | Engineering Toolchain        | Active      | Local and CI validation workflows are operational                                 |
 | M2        | Bootstrap and State          | Not started | Remote state and deployment identities are established                            |
 | M3        | Reusable Module Platform     | Not started | The initial reusable module library is tested and versioned                       |
 | M4        | Resource Organization        | Not started | Management groups and platform subscription boundaries are deployed               |
@@ -89,7 +89,7 @@ Define the requirements, standards, boundaries, and architectural decisions that
 
 * Platform scope is documented.
 * Repository responsibilities are defined.
-* Terraform/OpenTofu standards are defined.
+* Terraform standards are defined.
 * Module design standards are defined.
 * State boundaries are defined.
 * Management group hierarchy is proposed.
@@ -110,11 +110,11 @@ Implementation can begin without engineers inventing repository structures, modu
 
 ## Objective
 
-Create a consistent local and CI/CD toolchain for validating Terraform/OpenTofu infrastructure.
+Create a consistent local and CI/CD toolchain for validating Terraform infrastructure.
 
 ## Major Outcomes
 
-* Approved Terraform/OpenTofu versions are documented.
+* Approved Terraform versions are documented.
 * Provider version strategy is documented.
 * Formatting and validation are automated.
 * TFLint is configured.
@@ -157,7 +157,7 @@ All subsequent infrastructure can use secured remote state and controlled deploy
 
 ## Objective
 
-Create a reusable, testable, documented, and independently versioned Terraform/OpenTofu module library.
+Create a reusable, testable, documented, and independently versioned Terraform module library.
 
 ## Major Outcomes
 
@@ -377,6 +377,8 @@ The Azure Landing Zone platform will be considered complete when:
 
 The active milestone is:
 
-**M0 — Architecture and Standards**
+**M1 — Engineering Toolchain**
 
-No production Azure platform resources should be deployed until the minimum architecture, repository, module, state, naming, governance, and networking decisions required for implementation have been documented.
+M0 Platform Architecture is complete as of `v0.1.0-alpha`. ADRs `0001` through `0007` are accepted, and the Engineering Validation Standard has been added.
+
+The active focus is turning the documented validation expectations into repeatable local and CI workflows. No production Azure platform resources should be deployed from this repository.
