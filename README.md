@@ -32,6 +32,19 @@ The platform is designed around:
 - Centralized standards for repository structure, modules, naming, tagging,
   versioning, state, and engineering validation.
 
+Current toolchain baseline:
+
+- Terraform execution version: `1.15.8`
+- Reusable module Terraform minimum: `>= 1.7.0`
+- Reusable module AzureRM constraint: `>= 4.0.0, < 5.0.0`
+- Root deployment AzureRM constraint pattern: `~> 4.80`
+- First foundation root lock-file-selected AzureRM version: `4.81.0`
+- AzAPI: excluded until a real platform capability requires it
+
+Root constraints define the permitted provider range. Committed root lock files
+record the exact selected provider version, and future provider updates require
+explicit dependency-upgrade pull requests.
+
 Accepted ADRs:
 
 - [ADR 0001 - Infrastructure as Code Engine](docs/adr/0001-iac-engine.md)

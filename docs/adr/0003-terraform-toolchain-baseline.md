@@ -57,6 +57,11 @@ the 4.x release series, preserving the externally verified release reference
 used for this baseline decision:
 https://releases.hashicorp.com/terraform-provider-azurerm/
 
+The first foundation root initialization selected AzureRM 4.81.0 under the
+approved root constraint `~> 4.80`. This updates the initial
+release-validation and lock-file-selected provider version without changing the
+root constraint pattern or reusable child-module compatibility constraint.
+
 ## Decision Drivers
 
 - Use Terraform as the single supported engine.
@@ -210,7 +215,7 @@ claimed.
 The initial AzureRM release-validation and root example lock version is:
 
 ```text
-4.80.0
+4.81.0
 ```
 
 AzAPI is not included in the initial baseline. It will be introduced later only
@@ -232,18 +237,20 @@ onto the current execution patch. Terraform 1.7.0 is modern enough to support
 native provider mocking if adopted. Stable module releases must validate this
 declared minimum before claiming it.
 
-AzureRM 4.80.0 is selected as the initial release-validation and lock-file
-provider version because it is the verified official AzureRM 4.x release
-available as of July 2026. Reusable child modules declare AzureRM
-`>= 4.0.0, < 5.0.0` because the module compatibility contract is the supported
-AzureRM major version, not the exact provider patch selected by root lock
-files.
+AzureRM 4.81.0 is selected as the initial release-validation and
+lock-file-selected provider version because the first foundation root
+initialization selected it under the approved root constraint `~> 4.80`.
+Reusable child modules declare AzureRM `>= 4.0.0, < 5.0.0` because the module
+compatibility contract is the supported AzureRM major version, not the exact
+provider patch selected by root lock files.
 
 Child modules and root deployments still use different constraint policies.
 Child modules declare minimum compatible versions and avoid exact patch pins
-unless there is a documented reason. Root deployments and root examples use
-committed lock files to select exact provider versions for reproducible plans,
-applies, and release validation.
+unless there is a documented reason. Root constraints define the permitted
+provider range. Committed root dependency lock files record the exact selected
+provider version for reproducible plans, applies, and release validation.
+Future provider updates require explicit dependency-upgrade pull requests with
+validation evidence.
 
 AzAPI is excluded from the initial baseline because adding it before a concrete
 need would increase provider surface area, test requirements, and operational
@@ -291,8 +298,9 @@ terraform {
 ```
 
 The root deployment `.terraform.lock.hcl` records the exact selected provider
-version used for plan and apply. During the initial M1 baseline, that locked
-AzureRM version is 4.80.0.
+version used for plan and apply. During the initial M1 baseline, the approved
+root constraint `~> 4.80` defines the permitted AzureRM provider range, and
+the first foundation root lock file selected AzureRM 4.81.0.
 
 ### Exact Execution Tooling
 
@@ -311,7 +319,8 @@ Terraform 1.15.8
 - Reusable modules initially declare `required_version = ">= 1.7.0"`.
 - Reusable modules initially declare AzureRM `>= 4.0.0, < 5.0.0` unless a
   module requires a narrower or newer constraint for a documented reason.
-- Root examples and root deployment validation initially lock AzureRM 4.80.0.
+- Root examples and root deployment validation initially lock AzureRM 4.81.0
+  after the first foundation root selected that version under `~> 4.80`.
 - Root deployment repositories commit `.terraform.lock.hcl`.
 - The initial release-acceptance matrix is intentionally small.
 - The declared minimum Terraform and AzureRM combination must be tested before
@@ -324,7 +333,7 @@ Terraform 1.15.8
   scanners, or Azure Verified Modules during M1.
 - Declaring Terraform 1.7.0 compatibility adds matrix responsibility before
   stable module releases.
-- AzureRM 4.80.0 may contain behavior that later patch releases fix.
+- AzureRM 4.81.0 may contain behavior that later patch releases fix.
 - Declaring AzureRM 4.0.0 compatibility may expose differences between early
   and later AzureRM 4.x behavior.
 - If the minimum combination is not tested, the platform may overstate module
@@ -346,7 +355,7 @@ This decision is valid when:
 - Reusable module `required_version` constraints start at `>= 1.7.0`.
 - Reusable module AzureRM constraints start at `>= 4.0.0, < 5.0.0` unless a
   documented module reason requires a narrower or newer constraint.
-- Root examples and root deployments lock AzureRM 4.80.0 during the initial M1
+- Root examples and root deployments lock AzureRM 4.81.0 during the initial M1
   baseline.
 - Stable module release validation includes the declared minimum combination:
   Terraform 1.7.0 with AzureRM 4.0.0.
@@ -465,20 +474,21 @@ release acceptance:
 | Purpose | Terraform version | AzureRM version |
 | --- | --- | --- |
 | Minimum compatibility validation | 1.7.0 | 4.0.0 |
-| Standard module validation | 1.15.8 | 4.80.0 |
-| Native Terraform tests | 1.15.8 | 4.80.0 |
-| Provider mocking | 1.15.8 | 4.80.0 |
-| Root example validation | 1.15.8 | 4.80.0 locked |
-| Release acceptance | 1.15.8 | 4.80.0 locked |
+| Standard module validation | 1.15.8 | 4.81.0 |
+| Native Terraform tests | 1.15.8 | 4.81.0 |
+| Provider mocking | 1.15.8 | 4.81.0 |
+| Root example validation | 1.15.8 | 4.81.0 locked |
+| Release acceptance | 1.15.8 | 4.81.0 locked |
 
 Stable module releases must not claim compatibility with Terraform 1.7.0 and
 AzureRM 4.0.0 unless the minimum compatibility validation row is implemented.
 If that row is not implemented, the reusable module constraints must be raised
 to the lowest Terraform and AzureRM versions actually tested.
 
-The release-acceptance path remains Terraform 1.15.8 with AzureRM 4.80.0
+The release-acceptance path remains Terraform 1.15.8 with AzureRM 4.81.0
 selected by root lock files. Additional Terraform or provider versions may be
-added later if there is a real consumer need and the CI matrix is expanded.
+added later through explicit dependency-upgrade pull requests if there is a
+real consumer need and the CI matrix is expanded.
 
 ## Related ADRs
 
@@ -496,7 +506,7 @@ This decision should be revisited if:
 - A newer Terraform patch or minor release provides important fixes or
   capabilities.
 - Required Azure Verified Modules do not support this baseline.
-- AzureRM 4.80.0 has provider behavior that blocks required platform work.
+- AzureRM 4.81.0 has provider behavior that blocks required platform work.
 - Terraform 1.7.0 or AzureRM 4.0.0 cannot be validated for stable module
   releases.
 - AzureRM releases a major version that the platform needs to evaluate.

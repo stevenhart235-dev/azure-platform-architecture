@@ -167,7 +167,7 @@ Accepted decisions only:
   `azure-platform-architecture`, `azure-platform-modules`,
   `azure-platform-foundation`, and `azure-platform-connectivity`.
 - [ADR 0003 - Terraform Toolchain Baseline](../adr/0003-terraform-toolchain-baseline.md):
-  Terraform `1.15.8` is the exact approved execution version, AzureRM `4.80.0`
+  Terraform `1.15.8` is the exact approved execution version, AzureRM `4.81.0`
   is the initial release-validation and lock-file-selected provider version,
   and AzAPI is excluded until a real capability requires it.
 - [ADR 0004 - Remote State Strategy](../adr/0004-remote-state-strategy.md):
@@ -192,10 +192,14 @@ Additional accepted toolchain facts:
   troubleshooting, and runbooks.
 - Reusable modules support Terraform `>= 1.7.0`, subject to validation before
   stable releases claim that compatibility.
-- AzureRM release validation initially uses AzureRM `4.80.0`.
+- AzureRM release validation initially uses AzureRM `4.81.0`.
 - Reusable modules support AzureRM `>= 4.0.0, < 5.0.0`, subject to validation
   before stable releases claim that compatibility.
-- Root deployment lock files initially select AzureRM `4.80.0`.
+- Root deployment root constraints use the approved pattern `~> 4.80`.
+- Committed root dependency lock files record the exact selected provider
+  version.
+- The first foundation root lock file selected AzureRM `4.81.0`.
+- Future provider updates require explicit dependency-upgrade pull requests.
 - AzAPI is not included until a real platform capability requires it.
 - Root repositories own remote state, provider configuration, backend
   configuration, dependency lock files, and environment values.
