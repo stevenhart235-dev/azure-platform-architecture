@@ -14,7 +14,7 @@ This milestone must:
 
 - Define the platform scope and non-goals.
 - Confirm repository responsibilities and separation of concerns.
-- Define Terraform/OpenTofu compatibility expectations.
+- Define Terraform compatibility expectations.
 - Establish the strategy for adopting Azure Verified Modules.
 - Define reusable module composition principles.
 - Document the required management group hierarchy and subscription model decisions.
@@ -50,7 +50,7 @@ Out of scope:
   architecture, standards, roadmap, and ADRs.
 - Future implementation repositories will be created separately for reusable modules,
   platform foundation, and connectivity.
-- Platform implementation will use Terraform/OpenTofu-compatible module patterns.
+- Platform implementation will use Terraform module patterns.
 - Azure Landing Zone design principles will guide management group, subscription,
   governance, networking, and operational decisions.
 - Azure Verified Modules will be preferred where they meet platform requirements without
@@ -66,7 +66,7 @@ The following decisions must be made or explicitly queued as ADRs before impleme
 begins:
 
 - IaC engine: decide whether the platform standard is Terraform, OpenTofu, or
-  dual-compatible Terraform/OpenTofu execution.
+  dual-compatible execution. ADR 0001 resolved this as Terraform only.
 - Repository separation: confirm the responsibility boundary between architecture,
   reusable modules, foundation deployments, and connectivity deployments.
 - Module composition: decide how thin platform modules, Azure Verified Modules, and
@@ -97,7 +97,7 @@ overview.
 | Repository | Responsibility |
 | --- | --- |
 | `azure-platform-architecture` | Architecture, standards, ADRs, diagrams, roadmap, and implementation guidance |
-| `azure-platform-modules` | Reusable, independently versioned Terraform/OpenTofu modules |
+| `azure-platform-modules` | Reusable, independently versioned Terraform modules |
 | `azure-platform-foundation` | Management groups, platform subscriptions, governance, identity, management, and observability resources |
 | `azure-platform-connectivity` | Enterprise hubs, routing, firewalls, DNS, hybrid connectivity, and spoke onboarding |
 
@@ -114,23 +114,23 @@ Repository requirements:
 - Shared standards must be documented once in this repository and referenced by
   implementation repositories.
 
-The decision that remains required is whether foundation and connectivity should be
-deployed from separate repositories immediately in M2/M7 or temporarily staged from a
-single implementation repository until operating practices mature. The criteria are
-blast radius, ownership model, release cadence, state isolation, and operational
-complexity.
+ADR 0002 resolved the repository model as separate architecture, modules,
+foundation, and connectivity repositories. Foundation bootstrap begins in
+`azure-platform-foundation`; connectivity remains separate for the later
+connectivity milestone.
 
-## Terraform/OpenTofu Compatibility Strategy
+## Terraform Compatibility Strategy
 
 The platform must define a compatibility standard before module development starts.
+ADR 0001 resolved Terraform as the authoritative engine. OpenTofu compatibility is
+not part of the supported validation or release matrix unless a future ADR changes
+that decision.
 
 Required decisions:
 
 - Approved Terraform CLI version range.
-- Approved OpenTofu CLI version range, if OpenTofu is supported.
 - Minimum AzureRM provider version and provider upgrade policy.
 - Required use of AzAPI provider for Azure capabilities not yet available in AzureRM.
-- Whether every module must pass validation under both Terraform and OpenTofu.
 - Whether lock files are committed per root module, per example, or only in deployment
   repositories.
 
@@ -157,7 +157,7 @@ Adoption criteria:
 - The module exposes required diagnostics, identity, network, tagging, lock, role
   assignment, and private endpoint settings.
 - The module versioning and maintenance posture are acceptable for enterprise use.
-- The module works with the approved Terraform/OpenTofu strategy.
+- The module works with the approved Terraform strategy.
 - The module does not force environment-specific values into reusable module code.
 - The module can be wrapped without hiding important operational controls.
 
@@ -433,39 +433,39 @@ Requirements:
 Policy must be introduced in a controlled lifecycle: design, audit, remediation,
 enforcement, and periodic review.
 
-## Required ADR Backlog
+## Accepted ADR Baseline
 
-The ADR backlog for M0 must include at minimum:
+M0 produced the accepted ADR baseline listed in
+[../adr/README.md](../adr/README.md).
 
-- `0001-iac-engine.md`: Terraform, OpenTofu, or dual-compatible execution standard.
-- `0002-repository-separation.md`: target repository model and ownership boundaries.
-- `0003-module-composition.md`: reusable module composition, wrappers, root modules, and
-  environment configuration.
-- `0004-azure-verified-modules.md`: AVM adoption and exception strategy.
-- `0005-management-group-hierarchy.md`: management group structure and inheritance
-  model.
-- `0006-subscription-model.md`: platform and workload subscription model.
-- `0007-remote-state-strategy.md`: backend, state boundaries, access, recovery, and
-  cross-state dependency rules.
-- `0008-deployment-identity-strategy.md`: bootstrap, plan, apply, and break-glass
-  identity model.
-- `0009-enterprise-network-topology.md`: hub-and-spoke, Virtual WAN, or hybrid topology
-  decision.
-- `0010-dns-architecture.md`: private and hybrid DNS ownership and deployment model.
-- `0011-governance-policy-strategy.md`: policy scope, rollout, exemption, and
-  enforcement model.
-- `0012-naming-and-tagging-standards.md`: naming and tagging decision record if the
-  standards require architecture-level tradeoffs.
+Accepted ADRs:
 
-Existing ADR files `0001` through `0006` must be completed or updated before new
-implementation milestones rely on them.
+- `0001-iac-engine.md`: Terraform execution standard.
+- `0002-repository-separation.md`: target repository model and ownership
+  boundaries.
+- `0003-terraform-toolchain-baseline.md`: Terraform, provider, root constraint,
+  lock-file, and AzAPI baseline.
+- `0004-remote-state-strategy.md`: backend, state boundaries, access, recovery,
+  and cross-state dependency rules.
+- `0005-management-group-hierarchy.md`: management group structure and
+  inheritance model.
+- `0006-deployment-identity-strategy.md`: bootstrap, plan, apply, and
+  break-glass identity model.
+- `0007-enterprise-networking-strategy.md`: hub-and-spoke networking reference
+  architecture.
+- `0008-root-deployment-repository-structure.md`: deployment repository layout
+  for Foundation, connectivity, and future landing-zone repositories.
+
+Deferred decision areas remain visible in ADR revisit conditions, standards,
+and future roadmap milestones. Do not create placeholder ADR files merely to
+reserve numbers.
 
 ## Deliverables
 
 - Completed M0 roadmap specification in this document.
 - Architecture documentation for target architecture, management groups, subscription
   model, identity and RBAC, governance, network topology, and DNS.
-- Standards documentation for repository structure, Terraform/OpenTofu modules, naming,
+- Standards documentation for repository structure, Terraform modules, naming,
   tagging, state management, versioning, testing, and pipelines.
 - ADRs for major architecture decisions.
 - Updated diagrams where needed to explain repository boundaries, management groups,
@@ -476,23 +476,23 @@ implementation milestones rely on them.
 ## Work Items
 
 - [ ] Define platform scope, assumptions, and non-goals.
-- [ ] Complete repository responsibility model.
-- [ ] Decide Terraform/OpenTofu compatibility strategy.
-- [ ] Define provider and versioning expectations.
+- [x] Complete repository responsibility model.
+- [x] Decide Terraform compatibility strategy.
+- [x] Define provider and versioning expectations.
 - [ ] Define Azure Verified Modules adoption rules.
 - [ ] Define module composition principles.
 - [ ] Draft management group hierarchy.
 - [ ] Draft subscription model.
 - [ ] Define naming standard requirements.
 - [ ] Define tagging standard requirements.
-- [ ] Define remote state isolation and access strategy.
-- [ ] Define deployment identity strategy.
-- [ ] Define enterprise networking decision criteria.
+- [x] Define remote state isolation and access strategy.
+- [x] Define deployment identity strategy.
+- [x] Define enterprise networking decision criteria.
 - [ ] Define IP address management requirements.
 - [ ] Define DNS architecture requirements.
 - [ ] Define governance and policy rollout strategy.
-- [ ] Complete ADRs `0001` through `0006`.
-- [ ] Create ADRs `0007` through `0012` as needed.
+- [x] Complete accepted ADR baseline `0001` through `0008`.
+- [x] Remove unused empty ADR placeholders.
 - [ ] Review architecture and standards for consistency with the roadmap overview.
 - [ ] Confirm M0 exit criteria before starting deployable implementation.
 
@@ -503,7 +503,7 @@ implementation milestones rely on them.
 - Confirmation of existing enterprise IPAM and DNS tooling.
 - Input from platform engineering, security, networking, identity, operations, and
   application representatives.
-- Decision on Terraform/OpenTofu support expectations.
+- Decision on Terraform support expectations.
 - Agreement on repository ownership and lifecycle.
 
 ## Risks
@@ -528,8 +528,7 @@ M0 is complete when:
 - Required ADRs beyond `0006` are created or added to the backlog with owners.
 - Repository responsibilities are clear enough to create future implementation
   repositories without redesign.
-- Terraform/OpenTofu compatibility expectations are clear enough for M1 validation
-  design.
+- Terraform compatibility expectations are clear enough for validation design.
 - Module composition and AVM adoption strategies are clear enough for M3 module design.
 - Management group and subscription model decisions are clear enough for M4
   implementation planning.
@@ -550,5 +549,5 @@ categories, or network architecture while writing code.
 
 The platform has a documented decision framework: unresolved choices are visible, tied
 to criteria, and queued as ADRs instead of being hidden in implementation. Future
-repositories can be created with clear ownership, and future Terraform/OpenTofu work can
+repositories can be created with clear ownership, and future Terraform work can
 be reviewed against documented enterprise standards.

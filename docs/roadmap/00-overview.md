@@ -66,9 +66,9 @@ When complete, the platform will provide:
 | Milestone | Name                         | Status      | Primary Outcome                                                                   |
 | --------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------- |
 | M0        | Architecture and Standards   | Complete    | Platform requirements, standards, and major architecture decisions are documented |
-| M1        | Engineering Toolchain        | Active      | Local and CI validation workflows are operational                                 |
-| M2        | Bootstrap and State          | Not started | Remote state and deployment identities are established                            |
-| M3        | Reusable Module Platform     | Not started | The initial reusable module library is tested and versioned                       |
+| M1        | Engineering Toolchain        | Complete    | Local and CI validation expectations are documented for implementation repositories |
+| M2        | Bootstrap and State          | Next        | Remote state and deployment identities are established                            |
+| M3        | Reusable Module Platform     | Initial modules released | The initial reusable module library is tested and versioned          |
 | M4        | Resource Organization        | Not started | Management groups and platform subscription boundaries are deployed               |
 | M5        | Governance and Security      | Not started | Policy, RBAC, security, and compliance baselines are applied                      |
 | M6        | Management and Observability | Not started | Central monitoring, diagnostics, and platform alerting are operational            |
@@ -146,6 +146,10 @@ Establish the minimum trusted Azure resources and identities required to manage 
 * CI/CD authentication uses workload identity federation where supported.
 * Long-lived client secrets are avoided.
 * Bootstrap responsibilities are documented.
+* Foundation consumes immutable released modules:
+  `resource-group-v0.1.0`, `storage-account-v0.1.0`, and
+  `storage-container-v0.1.0`.
+* Temporary local bootstrap state is migrated to Azure Blob Storage.
 
 ## Accomplished Looks Like
 
@@ -375,10 +379,10 @@ The Azure Landing Zone platform will be considered complete when:
 
 # Current Focus
 
-The active milestone is:
+The next milestone is:
 
-**M1 — Engineering Toolchain**
+**M2 — Bootstrap and State**
 
-M0 Platform Architecture is complete as of `v0.1.0-alpha`. ADRs `0001` through `0007` are accepted, and the Engineering Validation Standard has been added.
+M0 Platform Architecture is complete as of `v0.1.0-alpha`. ADRs `0001` through `0008` are accepted, and the engineering baseline is complete enough for Foundation bootstrap.
 
-The active focus is turning the documented validation expectations into repeatable local and CI workflows. No production Azure platform resources should be deployed from this repository.
+The active focus is preparing `azure-platform-foundation` to create the initial Azure Blob Storage remote state backend by consuming immutable released modules. No production Azure platform resources should be deployed from this repository.

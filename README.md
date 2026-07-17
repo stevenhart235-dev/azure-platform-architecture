@@ -12,9 +12,9 @@ architecture that can scale down for a lab without changing the model.
 
 Current release: `v0.1.0-alpha`
 
-This release completes M0 Platform Architecture and establishes the baseline
-architecture decisions and standards required to begin M1 Engineering Toolchain
-work.
+This release establishes the baseline architecture decisions and standards used
+by the implementation repositories. The architecture and engineering baseline
+are complete enough for Foundation bootstrap preparation.
 
 ## Architecture Overview
 
@@ -54,6 +54,7 @@ Accepted ADRs:
 - [ADR 0005 - Management Group Hierarchy](docs/adr/0005-management-group-hierarchy.md)
 - [ADR 0006 - Deployment Identity Strategy](docs/adr/0006-deployment-identity-strategy.md)
 - [ADR 0007 - Enterprise Networking Strategy](docs/adr/0007-enterprise-networking-strategy.md)
+- [ADR 0008 - Root Deployment Repository Structure](docs/adr/0008-root-deployment-repository-structure.md)
 
 ## Repository Overview
 
@@ -72,14 +73,15 @@ belong in the implementation repositories, not here.
 
 ## Roadmap Summary
 
-M0 Platform Architecture is complete. M1 Engineering Toolchain is now active.
+M0 Platform Architecture and the engineering baseline are complete. Foundation
+bootstrap is the next milestone.
 
 | Milestone | Status | Outcome |
 | --- | --- | --- |
 | M0 Architecture and Standards | Complete | Platform requirements, standards, and major architecture decisions are documented |
-| M1 Engineering Toolchain | Active | Local and CI validation workflows become operational |
-| M2 Bootstrap and State | Not started | Remote state and deployment identities are established |
-| M3 Reusable Module Platform | Not started | Initial reusable modules are tested and versioned |
+| M1 Engineering Toolchain | Complete | Local and CI validation expectations are documented and ready for implementation repository use |
+| M2 Bootstrap and State | Next | Remote state and deployment identities are established |
+| M3 Reusable Module Platform | Initial modules released | Initial reusable modules are tested and versioned |
 | M4-M10 Platform Implementation | Not started | Resource organization, governance, observability, networking, landing zones, subscription vending, and production readiness mature over later milestones |
 
 Full roadmap:
@@ -99,20 +101,28 @@ Full roadmap:
 
 ## Current Milestone
 
-Active milestone: **M1 Engineering Toolchain**
+Next milestone: **M2 Bootstrap and State**
 
 Current focus:
 
-- Turn the documented validation standards into local and CI workflows.
-- Standardize Terraform formatting, validation, native tests, TFLint, and Trivy.
-- Align GitHub Actions checks with the engineering validation standard.
-- Prepare the implementation repositories to consume the accepted M0 baseline.
+- Prepare `azure-platform-foundation` for bootstrap implementation.
+- Consume immutable released modules from `azure-platform-modules`.
+- Create and migrate the initial Azure Blob Storage remote state backend.
+- Use Microsoft Entra ID and Azure RBAC for state access.
+- Avoid storage account keys, SAS tokens, client secrets, and local state after
+  migration.
+
+Current released modules:
+
+- `resource-group-v0.1.0`
+- `storage-account-v0.1.0`
+- `storage-container-v0.1.0`
 
 ## Getting Started
 
 1. Read [docs/roadmap/00-overview.md](docs/roadmap/00-overview.md).
 2. Read [docs/roadmap/01-architecture-and-standards.md](docs/roadmap/01-architecture-and-standards.md).
-3. Review accepted ADRs `0001` through `0007` in [docs/adr](docs/adr).
+3. Review the accepted ADR index in [docs/adr](docs/adr).
 4. Review standards in [docs/standards](docs/standards), especially the
    repository, Terraform module, versioning, and engineering validation
    standards.

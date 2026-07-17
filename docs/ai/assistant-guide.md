@@ -48,25 +48,31 @@ The platform goals are to:
 
 Current release: `v0.1.0-alpha`
 
-Current milestone: **M1 - Engineering Toolchain**
+Current milestone: **M2 - Bootstrap and State**
 
-M0 Platform Architecture is complete. The architecture repository now contains
-the accepted baseline ADRs and standards needed to begin engineering toolchain
-implementation.
+M0 Platform Architecture and the engineering baseline are complete. The
+architecture repository now contains the accepted baseline ADRs and standards
+needed to begin Foundation bootstrap implementation.
 
 Current status:
 
-- ADRs `0001` through `0007` are accepted.
+- ADRs `0001` through `0008` are accepted.
 - Terraform is the authoritative Infrastructure as Code engine.
 - The four-repository model is accepted.
 - Remote state, management group hierarchy, deployment identity, and enterprise
   networking decisions are accepted.
+- Root deployment repository structure is accepted.
 - Repository, Terraform module, naming, tagging, versioning, state management,
   and engineering validation standards exist.
+- Released reusable modules exist:
+  - `resource-group-v0.1.0`
+  - `storage-account-v0.1.0`
+  - `storage-container-v0.1.0`
 - No production Azure platform resources should be deployed from this
   repository.
-- M1 work should focus on local validation, CI validation, tooling, and
-  repeatable engineering workflows.
+- The next implementation repository is `azure-platform-foundation`.
+- M2 work should focus on Foundation bootstrap, remote state creation, state
+  migration, and identity-based state access.
 
 ## Repository Map
 
@@ -184,6 +190,10 @@ Accepted decisions only:
   hub-and-spoke is the reference architecture, with platform-owned regional
   hubs, centralized routing, centralized DNS, and private endpoint first
   connectivity.
+- [ADR 0008 - Root Deployment Repository Structure](../adr/0008-root-deployment-repository-structure.md):
+  deployment repositories use the standard `platform/`, `environments/`, and
+  `docs/` layout; Foundation bootstrap belongs under the Foundation deployment
+  repository structure.
 
 Additional accepted toolchain facts:
 
@@ -204,6 +214,9 @@ Additional accepted toolchain facts:
 - Root repositories own remote state, provider configuration, backend
   configuration, dependency lock files, and environment values.
 - Reusable child modules remain environment-neutral.
+- Foundation bootstrap consumes immutable released modules:
+  `resource-group-v0.1.0`, `storage-account-v0.1.0`, and
+  `storage-container-v0.1.0`.
 
 Do not invent decisions for unresolved architecture areas. If a decision is not
 accepted in an ADR or standard, describe it as unresolved or deferred.
@@ -282,37 +295,39 @@ This is a project snapshot and must be updated when milestones change:
 
 - `v0.1.0-alpha` has been released.
 - M0 Platform Architecture is complete.
-- M1 Engineering Toolchain is active.
-- ADRs `0001` through `0007` are accepted.
+- The engineering baseline is complete enough for Foundation bootstrap.
+- ADRs `0001` through `0008` are accepted.
 - Repository, Terraform module, naming, tagging, versioning, state management,
   and engineering validation standards exist.
 - Engineering Validation Standard has been added.
+- Released reusable modules:
+  - `resource-group-v0.1.0`
+  - `storage-account-v0.1.0`
+  - `storage-container-v0.1.0`
 - The architecture repository remains documentation-only and must not contain
   deployable Terraform, state, plan files, or environment-specific values.
-- Implementation repositories are expected to consume this architecture
-  baseline as M1 and later milestones proceed.
-- Foundation and connectivity repositories are not yet implemented.
+- Implementation repositories consume this architecture baseline as their
+  milestones proceed.
+- Foundation bootstrap is the next implementation focus.
 
 ## Current Engineering Priorities
 
-The immediate priority is M1 Engineering Toolchain.
+The immediate priority is M2 Foundation bootstrap and state.
 
 Current priorities:
 
-- Translate the Engineering Validation Standard into repeatable local and
-  GitHub Actions validation workflows.
-- Standardize `terraform fmt`, `terraform validate`, `terraform test`, TFLint,
-  and Trivy checks.
-- Align CI behavior with the approved Terraform execution version and provider
-  strategy.
-- Define pull request and release validation evidence for reusable modules.
-- Keep workflow implementation details in the appropriate implementation
-  repositories.
-- Preserve the M0 architecture baseline unless a deliberate ADR or standard
-  update changes it.
+- Create the initial remote state backend from the Foundation repository.
+- Consume immutable released modules from the module repository.
+- Allow temporary local state only for first bootstrap.
+- Migrate bootstrap state to Azure Blob Storage after backend creation.
+- Use Microsoft Entra ID and Azure RBAC for state access.
+- Avoid storage account keys, SAS tokens, client secrets, and committed state
+  artifacts.
+- Preserve the accepted architecture unless a deliberate ADR or standard update
+  changes it.
 
-Do not expand implementation scope before the M1 validation model is clear and
-reviewable.
+Do not expand Foundation implementation scope beyond the accepted bootstrap and
+state architecture without documenting the required decision first.
 
 ## Unresolved Decisions
 

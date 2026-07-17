@@ -269,6 +269,41 @@ Implementation follows standards—not the other way around.
 
 ---
 
+# 11. Keep Primitive Modules Boring
+
+## Principle
+
+> Primitive modules should remain small, explicit, and environment-neutral.
+
+## Rationale
+
+The first released modules proved that simple building blocks are easier to
+validate, version, release, and compose than modules that try to own environment
+policy.
+
+Primitive modules should expose clear resource contracts. They should not hide
+environment naming, tag policy, backend wiring, dependency orchestration, or
+deployment sequencing.
+
+## Implementation
+
+Primitive modules own focused Azure resource behavior.
+
+Composition layers and root deployments own:
+
+- Environment policy
+- Naming decisions
+- Effective tags
+- Dependency wiring
+- State boundaries
+- Provider and backend configuration
+
+This keeps reusable modules environment-neutral while allowing Foundation,
+connectivity, and future landing-zone deployments to apply platform policy
+through configuration.
+
+---
+
 # Living Document
 
 These principles are intentionally incomplete.
