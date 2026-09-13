@@ -73,16 +73,19 @@ belong in the implementation repositories, not here.
 
 ## Roadmap Summary
 
-M0 Platform Architecture and the engineering baseline are complete. Foundation
-bootstrap is the next milestone.
+M0 Platform Architecture and the engineering baseline are complete. The
+Discovery-to-Runtime Landing Zone POC is complete; the next runtime milestone
+is M8.1 Repeatable Runtime Orchestration. Foundation bootstrap remains the
+separate M2 roadmap item; its completion is not established by this POC.
 
 | Milestone | Status | Outcome |
 | --- | --- | --- |
 | M0 Architecture and Standards | Complete | Platform requirements, standards, and major architecture decisions are documented |
 | M1 Engineering Toolchain | Complete | Local and CI validation expectations are documented and ready for implementation repository use |
-| M2 Bootstrap and State | Next | Remote state and deployment identities are established |
+| M2 Bootstrap and State | Separate foundation track | Remote state and deployment identities are established |
 | M3 Reusable Module Platform | Initial modules released | Initial reusable modules are tested and versioned |
-| M4-M10 Platform Implementation | Not started | Resource organization, governance, observability, networking, landing zones, subscription vending, and production readiness mature over later milestones |
+| M4-M10 Platform Implementation | Broader outcomes remain open | M8 discovery-to-runtime POC complete; enterprise outcomes are not closed by this slice |
+| M8.1 Repeatable Runtime Orchestration | Next runtime milestone | One controlled workflow over existing engines with a single-target catalog |
 
 Full roadmap:
 
@@ -101,9 +104,19 @@ Full roadmap:
 
 ## Current Milestone
 
-Next milestone: **M2 Bootstrap and State**
+Next runtime milestone: **M8.1 Repeatable Runtime Orchestration**.
 
-Current focus:
+- [POC closure, proven flow, ownership, and limitations](docs/architecture/discovery-to-runtime-poc.md)
+- [M8.1 contract, catalog, and acceptance criteria](docs/roadmap/09-application-landing-zones.md)
+- [M8 implementation backlog](backlog/milestone-08-landing-zones.md)
+- [Proposed ADR 0009](docs/adr/0009-repeatable-runtime-orchestration.md)
+
+The POC is **POC COMPLETE** based on owner-supplied evidence. M8.1 is defined,
+not implemented. The broader platform milestones remain separate.
+
+Separate foundation track: **M2 Bootstrap and State**.
+
+Foundation scope (unchanged by the runtime POC):
 
 - Prepare `azure-platform-foundation` for bootstrap implementation.
 - Consume immutable released modules from `azure-platform-modules`.
