@@ -48,7 +48,17 @@ The platform goals are to:
 
 Current release: `v0.1.0-alpha`
 
-Current milestone: **M2 - Bootstrap and State**
+Current runtime milestone: **M8.1 - Repeatable Runtime Orchestration** (defined,
+not implemented). The [Discovery-to-Runtime POC](../architecture/discovery-to-runtime-poc.md)
+is **POC COMPLETE** based on owner-supplied evidence. See the
+[M8.1 contract and acceptance criteria](../roadmap/09-application-landing-zones.md)
+and [proposed ADR 0009](../adr/0009-repeatable-runtime-orchestration.md).
+M2 remains a separate foundation track; no completion is inferred from the POC.
+
+The exact identifiers in the POC closure and catalog description are explicitly
+owner-requested evidence and contract documentation, not executable environment
+configuration. This narrow documentation exception does not authorize other
+environment values, state, plans, or deployment artifacts in this repository.
 
 M0 Platform Architecture and the engineering baseline are complete. The
 architecture repository now contains the accepted baseline ADRs and standards
@@ -70,7 +80,8 @@ Current status:
   - `storage-container-v0.1.0`
 - No production Azure platform resources should be deployed from this
   repository.
-- The next implementation repository is `azure-platform-foundation`.
+- The M2 implementation repository is `azure-platform-foundation`; runtime
+  orchestration uses existing discovery and platform-breakfix engines.
 - M2 work should focus on Foundation bootstrap, remote state creation, state
   migration, and identity-based state access.
 
@@ -308,13 +319,15 @@ This is a project snapshot and must be updated when milestones change:
   deployable Terraform, state, plan files, or environment-specific values.
 - Implementation repositories consume this architecture baseline as their
   milestones proceed.
-- Foundation bootstrap is the next implementation focus.
+- Foundation bootstrap remains the separate M2 scope. The next runtime focus
+  is M8.1; broader platform outcomes are not closed by this POC.
 
 ## Current Engineering Priorities
 
-The immediate priority is M2 Foundation bootstrap and state.
+The next runtime priority is M8.1 Repeatable Runtime Orchestration, limited to
+the linked contract. M2 Foundation bootstrap and state remains a separate track.
 
-Current priorities:
+Separate M2 priorities (not M8.1 scope):
 
 - Create the initial remote state backend from the Foundation repository.
 - Consume immutable released modules from the module repository.

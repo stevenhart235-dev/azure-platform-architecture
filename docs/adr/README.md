@@ -20,6 +20,12 @@ records and should not be treated as accepted architecture.
 | [0007](0007-enterprise-networking-strategy.md) | Enterprise Networking Strategy | Accepted | Defines hub-and-spoke as the reference networking architecture, with platform-owned regional hubs, centralized routing, DNS, and private endpoint first connectivity. |
 | [0008](0008-root-deployment-repository-structure.md) | Root Deployment Repository Structure | Accepted | Defines the standard `platform/`, `environments/`, and `docs/` layout for deployment repositories, including Foundation bootstrap placement. |
 
+## Proposed ADRs
+
+| Number | Title | Status | Purpose |
+| --- | --- | --- | --- |
+| [0009](0009-repeatable-runtime-orchestration.md) | Repeatable Runtime Orchestration | Proposed | Defines the narrow M8.1 integration, approval, catalog, and lifecycle boundaries after the successful POC. |
+
 ## Removed Placeholders
 
 The following empty duplicate-number placeholders were removed because they

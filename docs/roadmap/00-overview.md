@@ -67,13 +67,14 @@ When complete, the platform will provide:
 | --------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------- |
 | M0        | Architecture and Standards   | Complete    | Platform requirements, standards, and major architecture decisions are documented |
 | M1        | Engineering Toolchain        | Complete    | Local and CI validation expectations are documented for implementation repositories |
-| M2        | Bootstrap and State          | Next        | Remote state and deployment identities are established                            |
+| M2        | Bootstrap and State          | Separate foundation track | Remote state and deployment identities are established                    |
 | M3        | Reusable Module Platform     | Initial modules released | The initial reusable module library is tested and versioned          |
 | M4        | Resource Organization        | Not started | Management groups and platform subscription boundaries are deployed               |
 | M5        | Governance and Security      | Not started | Policy, RBAC, security, and compliance baselines are applied                      |
 | M6        | Management and Observability | Not started | Central monitoring, diagnostics, and platform alerting are operational            |
 | M7        | Enterprise Networking        | Not started | The first enterprise regional network hub is operational                          |
-| M8        | Application Landing Zones    | Not started | A repeatable workload landing-zone pattern is operational                         |
+| M8        | Application Landing Zones    | POC complete; broader outcomes open | A repeatable workload landing-zone pattern is operational          |
+| M8.1      | Repeatable Runtime Orchestration | Next runtime milestone | One controlled workflow over existing engines and one catalog target        |
 | M9        | Subscription Vending         | Not started | New landing zones can be created through validated configuration                  |
 | M10       | Production Readiness         | Not started | Recovery, failure, security, and operational validation have passed               |
 
@@ -379,10 +380,19 @@ The Azure Landing Zone platform will be considered complete when:
 
 # Current Focus
 
-The next milestone is:
+The next runtime milestone is:
 
-**M2 — Bootstrap and State**
+**M8.1 - Repeatable Runtime Orchestration**
+
+The [Discovery-to-Runtime POC](../architecture/discovery-to-runtime-poc.md) is
+**POC COMPLETE**. The [next milestone](09-application-landing-zones.md) defines
+the lifecycle, single-target platform catalog, and acceptance criteria;
+[implementation backlog](../../backlog/milestone-08-landing-zones.md).
+M8.1 is not implemented. This slice does not establish broader M7-M10 completion.
+
+M2 Bootstrap and State remains a separate foundation track. Its completion is
+not established by runtime POC evidence.
 
 M0 Platform Architecture is complete as of `v0.1.0-alpha`. ADRs `0001` through `0008` are accepted, and the engineering baseline is complete enough for Foundation bootstrap.
 
-The active focus is preparing `azure-platform-foundation` to create the initial Azure Blob Storage remote state backend by consuming immutable released modules. No production Azure platform resources should be deployed from this repository.
+The separate M2 scope is preparing `azure-platform-foundation` to create the initial Azure Blob Storage remote state backend by consuming immutable released modules. This is not part of M8.1. No production Azure platform resources should be deployed from this repository.
